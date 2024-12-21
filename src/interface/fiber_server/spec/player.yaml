@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: DEMO API
+  version: 1.0.0
+paths:
+  /player:
+    post:
+      tags:
+        - player
+      summary: Create player
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlayerRequest"
+      responses:
+        "201":
+          description: player created successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: player type ex. player1
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /player/{player_id}:
+    get:
+      tags:
+        - player
+      summary: Get player
+      parameters:
+        - name: player_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlayerResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    PlayerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+      required:
+        - name
+
+    PlayerResponse:
+      type: object
+      properties:
+        player_id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        error_code:
+          type: string
